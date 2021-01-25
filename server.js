@@ -12,6 +12,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 
 const dotenv = require("dotenv");
+const { json } = require("body-parser");
 dotenv.config();
 
 mongoose
@@ -21,6 +22,7 @@ mongoose
   })
   .then(() => console.log("DB Connected"));
 
+app.use(bodyParser())
 app.use(cookieParser());
 app.use(cors());
 

@@ -7,7 +7,7 @@ const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
-router.put(
+router.post(
   '/signup',
   [
     body('email')
@@ -24,10 +24,7 @@ router.put(
     body('password')
       .trim()
       .isLength({ min: 5 }),
-    body('firstname')
-      .trim()
-      .not()
-      .isEmpty()
+
   ],
   authController.signup
 );
