@@ -10,6 +10,7 @@ require("dotenv").config();
 const app = express();
 
 const authRoutes = require("./routes/auth");
+const todolistRoutes = require("./routes/todolist");
 
 const dotenv = require("dotenv");
 const { json } = require("body-parser");
@@ -22,12 +23,12 @@ mongoose
   })
   .then(() => console.log("DB Connected"));
 
-app.use(bodyParser())
+app.use(bodyParser());
 app.use(cookieParser());
 app.use(cors());
 
-
 app.use("/api", authRoutes);
+app.use("/api", todolistRoutes);
 
 const PORT = process.env.PORT || 8000;
 
