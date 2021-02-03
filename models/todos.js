@@ -22,6 +22,11 @@ const ToDoSchema = new mongoose.Schema({
     default: false
   },
 
+  isRoutine: {
+    type: Boolean,
+    default: false
+  },
+
   isVisible: {
     type: Boolean,
     default: true
