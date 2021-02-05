@@ -37,7 +37,9 @@ const ToDoSchema = new mongoose.Schema({
   },
 
   duration:{
-    type:Object
+    type: Number,
+    require:true,
+    default:0
   }
       
 

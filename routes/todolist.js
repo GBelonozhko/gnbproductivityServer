@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Todos = require("../models/todos");
 const User = require("../models/user");
-const cron = require('node-cron');
-
+const cron = require("node-cron");
 
 router.get("/todolists/:userId", (req, res) => {
   Todos.find({ creator: req.params.userId })
@@ -238,14 +237,14 @@ router.patch("/CompleteTodo/:id", (req, res, next) => {
 });
 
 router.patch("/updateDuration/:id", (req, res, next) => {
-  
+  console.log(req.body.duration)
   Todos.updateOne(
     { _id: req.params.id },
-    { $set: { duration: req.body.duration } }
+    { $set: { duration: req.body.duration.value } }
   )
     .then(function () {
       res.json("todo updated");
-      console.log('success')
+      console.log("success");
     })
     .catch(function (err) {
       res.status(422).send("todo update failed.");
@@ -253,42 +252,41 @@ router.patch("/updateDuration/:id", (req, res, next) => {
 });
 
 router.patch("/toggleRoutine/:id", (req, res) => {
-   Todos.updateOne(
+  Todos.updateOne(
     { _id: req.params.id },
     { $set: { isRoutine: req.body.isRoutineData } }
-  )
-  .then(
+  ).then(
     Todos.findById(req.params.id).then((todo) => {
-      
-      let task = cron.schedule('20 01 * * *', () => {
-        if(todo.isRoutine===true){
-          const newTodo = new Todos({
-            title: todo.title,
-            creator: todo.creator,
-            task: todo.task,
-            isComplete: false,
-            isVisible: true,
-          });
-          const userId = todo.creator;
-          newTodo
-          .save()
-          .then(() => {
-            return User.findById(userId);
-          })
-          .then((user) => {
-            user.todos.push(todo);
-            return user.save();
-          });
-        }else{
-          task.destroy();
-        }}, {scheduled: true});
-    
-        
-      }
-    )
+      let task = cron.schedule(
+        "20 01 * * *",
+        () => {
+          if (todo.isRoutine === true) {
+            const newTodo = new Todos({
+              title: todo.title,
+              creator: todo.creator,
+              task: todo.task,
+              isComplete: false,
+              isVisible: true,
+            });
+            const userId = todo.creator;
+            newTodo
+              .save()
+              .then(() => {
+                return User.findById(userId);
+              })
+              .then((user) => {
+                user.todos.push(todo);
+                return user.save();
+              });
+          } else {
+            task.destroy();
+          }
+        },
+        { scheduled: true }
+      );
+    })
   );
 });
-
 
 router.delete("/deletetodo/:id", (req, res, next) => {
   Todos.findById(req.params.id)
