@@ -236,20 +236,7 @@ router.patch("/CompleteTodo/:id", (req, res, next) => {
     });
 });
 
-router.patch("/updateDuration/:id", (req, res, next) => {
-  console.log(req.body.duration)
-  Todos.updateOne(
-    { _id: req.params.id },
-    { $set: { duration: req.body.duration.value } }
-  )
-    .then(function () {
-      res.json("todo updated");
-      console.log("success");
-    })
-    .catch(function (err) {
-      res.status(422).send("todo update failed.");
-    });
-});
+
 
 router.patch("/toggleRoutine/:id", (req, res) => {
   Todos.updateOne(

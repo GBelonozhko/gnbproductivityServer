@@ -36,12 +36,6 @@ const ToDoSchema = new mongoose.Schema({
     type: String,
   },
 
-  duration:{
-    type: Number,
-    require:true,
-    default:0
-  }
-      
 
 },{ timestamps: true }
 );
