@@ -112,6 +112,19 @@ router.get("/todolist/:id/:title", (req, res) => {
       });
       break;
 
+      case "ActiveRoutines":
+      Todos.find({
+        creator: creatorId,
+        isRoutine: true,
+        
+      }).then((todo) => {
+        res.status(200).json({
+          todoData: todo,
+          todoTitle: "ActiveRoutines",
+        });
+      });
+      break;
+
     default:
       Todos.find({ creator: creatorId, title: filtTitle }).then((todo) => {
         res.status(200).json({
@@ -236,6 +249,34 @@ router.patch("/CompleteTodo/:id", (req, res, next) => {
     });
 });
 
+router.patch("/updateStartTime/:id", (req, res, next) => {
+  console.log(req.body.time);
+  Todos.updateOne(
+    { _id: req.params.id },
+    { $set: { startTime: req.body.time } }
+  )
+    .then(function () {
+      res.json("todo updated");
+    })
+    .catch(function (err) {
+      res.status(422).send("todo update failed.");
+    });
+});
+
+router.patch("/updateEndTime/:id", (req, res, next) => {
+  console.log(req.params.id);
+  
+  Todos.updateOne(
+    { _id: req.params.id },
+    { $set: { endTime: req.body.time } }
+  )
+    .then(function () {
+      res.json("todo updated");
+    })
+    .catch(function (err) {
+      res.status(422).send("todo update failed.");
+    });
+});
 
 
 router.patch("/toggleRoutine/:id", (req, res) => {
