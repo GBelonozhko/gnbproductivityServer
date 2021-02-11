@@ -1,4 +1,4 @@
-const mongoose = requre("mongoose");
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
 const NumTrackerSchema = new mongoose.Schema(
