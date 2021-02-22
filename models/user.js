@@ -25,6 +25,8 @@ const userSchema = new Schema({
     },
   ],
   numtrackers: [{ type: ObjectId, ref: "NumTrackers" }],
+
+  journal: [{ type: ObjectId, ref: "JournalEntries" }],
 });
 
 module.exports = mongoose.model("User", userSchema);

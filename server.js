@@ -12,6 +12,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const todolistRoutes = require("./routes/todolist");
 const numtrackerRoutes = require("./routes/numtracker");
+const journalRoutes = require('./routes/journal')
 
 const dotenv = require("dotenv");
 const { json } = require("body-parser");
@@ -31,6 +32,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", todolistRoutes);
 app.use("/api", numtrackerRoutes);
+app.use("/api", journalRoutes)
 
 const PORT = process.env.PORT || 8000;
 
