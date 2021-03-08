@@ -30,6 +30,19 @@ router.get("/alljournals/:userId", (req, res) => {
   });
 });
 
+router.delete("/deletejournal/:id", (req, res, next) => {
+  Journal.findById(req.params.id)
+    .then((result) => {
+      return User.findById(result.creator);
+    })
+    .then((user) => {
+      user.journal.pull(req.params.id);
+      return user.save();
+    });
 
+  Journal.findByIdAndRemove(req.params.id).then(function () {
+    res.status(200).json("todo deleted");
+  });
+});
 
 module.exports = router;
